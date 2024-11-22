@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foot Cap - Shopping Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f4f6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background-color: #1f2937;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .cart-container {
+      margin-top: 2rem;
+      padding: 0 2rem;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .cart-item h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .cart-item .price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #4CAF50;
+    }
+
+    .cart-item .remove {
+      color: red;
+      cursor: pointer;
+    }
+
+    .checkout {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .checkout button {
+      background-color: #10B981;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    .checkout .total-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1>Foot Cap - Shopping Cart</h1>
+  </header>
+
+  <!-- Cart container -->
+  <div class="cart-container" id="cart-container"></div>
+
+  <!-- Checkout -->
+  <div class="checkout">
+    <div class="total-price" id="total-price">Total: $0.00</div>
+    <button onclick="goToOrderSummary()">Checkout</button>
+  </div>
+
+  <script>
+    // Retrieve cart data from localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartContainer = document.getElementById('cart-container');
+    let totalPrice = 0;
+
+    // Function to display cart items
+    function displayCart() {
+      cartContainer.innerHTML = '';
+
+      cart.forEach(item => {
+        totalPrice += item.price;
+
+        const cartItem = `
+          <div class="cart-item">
+            <img src="${item.imgSrc}" alt="${item.name}">
+            <div>
+              <h3>${item.name}</h3>
+              <p class="price">$${item.price}</p>
+            </div>
+            <span class="remove" onclick="removeItem('${item.name}')">Remove</span>
+          </div>
+        `;
+        cartContainer.innerHTML += cartItem;
+      });
+
+      // Update total price
+      document.getElementById('total-price').innerText = `Total: $${totalPrice.toFixed(2)}`;
+    }
+
+    // Function to remove item from cart
+    function removeItem(productName) {
+      const updatedCart = cart.filter(item => item.name !== productName);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      window.location.reload();
+    }
+
+    // Function to navigate to the order summary page
+    function goToOrderSummary() {
+      // Store cart data in localStorage before navigating
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Navigate to order summary page
+      window.location.href = 'order-summary.html'; // Adjust path if necessary
+    }
+
+    // Display cart on page load
+    displayCart();
+  </script>
+</body>
+</html>

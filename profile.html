@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            padding: 30px;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            margin: 0 auto;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .profile-details {
+            font-size: 18px;
+            color: #333;
+        }
+        .profile-details p {
+            margin: 10px 0;
+        }
+        .profile-details span {
+            font-weight: bold;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .messageDiv {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .option:hover {
+            transform: scale(1.05);
+            background-color: #f0f0f0;
+        }
+        .option img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        .option p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="profile">
+        <h1>User Profile</h1>
+        <div id="profileMessage" class="messageDiv" style="display:none;"></div>
+        <div class="profile-details">
+            <p><strong>First Name:</strong> <span id="loggedUserFName">N/A</span></p>
+            <p><strong>Last Name:</strong> <span id="loggedUserLName">N/A</span></p>
+            <p><strong>Email:</strong> <span id="loggedUserEmail">N/A</span></p>
+        </div>
+        <div class="options-grid">
+            <div class="option" onclick="navigateTo('orders')">
+                <img src="assets/images/checkout.png" alt="Orders">
+                <p>Your Orders</p>
+            </div>
+            <div class="option" onclick="navigateTo('login-security')">
+                <img src="assets/images/hack.png" alt="Login & Security">
+                <p>Login & Security</p>
+            </div>
+            <div class="option" onclick="navigateTo('wishlist')">
+                <img src="assets/images/wishlist.png" alt="Wishlist">
+                <p>Wishlist</p>
+            </div>
+            <div class="option" onclick="navigateTo('addresses')">
+                <img src="assets/images/location-pin.png" alt="Addresses">
+                <p>Your Addresses</p>
+            </div>
+            <div class="option" onclick="navigateTo('payment-options')">
+                <img src="assets/images/payment.png" alt="Payment Options">
+                <p>Payment Options</p>
+            </div>
+            <div class="option" onclick="navigateTo('business-account')">
+                <img src="assets/images/manager.png" alt="Business Account">
+                <p>Your Business Account</p>
+            </div>
+            <div class="option" onclick="navigateTo('contact-us')">
+                <img src="assets/images/contact.png" alt="Contact Us">
+                <p>Contact Us</p>
+            </div>
+        </div>
+        <div class="btn-container">
+            <button id="logoutBtn" class="btn" onclick="logout()">Logout</button>
+            <button id="homeBtn" class="btn" onclick="goToHome()">Go to Home</button>
+        </div>
+    </div>
+
+    <!-- Add your navigation functionality -->
+    <script>
+        function navigateTo(page) {
+            switch(page) {
+                case 'orders':
+                    window.location.href = 'orders.html'; // Order page link
+                    break;
+                case 'login-security':
+                    window.location.href = 'login-security.html'; // Login & Security page link
+                    break;
+                case 'wishlist':
+                    window.location.href = 'wishlist.html'; // Wishlist page link
+                    break;
+                case 'addresses':
+                    window.location.href = 'addresses.html'; // Addresses page link
+                    break;
+                case 'payment-options':
+                    window.location.href = 'payment-options.html'; // Payment Options page link
+                    break;
+                case 'business-account':
+                    window.location.href = 'business-account.html'; // Business Account page link
+                    break;
+                case 'contact-us':
+                    window.location.href = 'chatbot.html'; // Contact Us page link (chatbot)
+                    break;
+                default:
+                    alert('Page not found!');
+            }
+        }
+
+        function logout() {
+            alert("You have been logged out!");
+            // Add actual logout logic here
+        }
+
+        function goToHome() {
+            window.location.href = 'index.html'; // Home page link
+        }
+    </script>
+    <script type="module" src="assets/js/profile.js"></script>
+</body>
+</html>

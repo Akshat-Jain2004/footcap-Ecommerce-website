@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Shoe Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-field {
+            margin-bottom: 15px;
+        }
+
+        .input-field label {
+            display: block;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .input-field input, .input-field textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .input-field textarea {
+            resize: none;
+        }
+
+        #imagePreview {
+            cursor: pointer;
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+        }
+
+        #imagePreview:hover {
+            background-color: #f9f9f9;
+        }
+
+        #previewImg {
+            max-width: 150px;
+            max-height: 150px;
+            margin: 10px auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button.secondary {
+            background-color: #6c757d;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Add New Shoe Product</div>
+        <!-- Image Upload -->
+        <div id="imagePreview" class="mb-4">
+            <input type="file" id="imageInput" class="hidden" accept="image/*">
+            <img id="previewImg" src="" alt="Preview" class="hidden">
+            <div class="text-gray-500">Click to upload image</div>
+        </div>
+
+        <!-- Product Details Form -->
+        <div class="input-field">
+            <label for="productId">Product ID</label>
+            <input type="text" id="productId" placeholder="Enter Product ID">
+        </div>
+        <div class="input-field">
+            <label for="productName">Product Name</label>
+            <input type="text" id="productName" placeholder="Enter Product Name">
+        </div>
+        <div class="input-field">
+            <label for="sku">SKU</label>
+            <input type="text" id="sku" placeholder="Enter SKU">
+        </div>
+        <div class="input-field">
+            <label for="price">Price</label>
+            <input type="text" id="price" placeholder="Enter Price">
+        </div>
+        <div class="input-field">
+            <label for="description">Description</label>
+            <textarea id="description" rows="4" placeholder="Enter Description"></textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div>
+            <button id="addProductBtn" class="button">Add Product</button>
+            <button id="viewProductsBtn" class="button secondary">View All Products</button>
+        </div>
+    </div>
+
+    <script>
+        // Image preview functionality
+        const imagePreview = document.getElementById('imagePreview');
+        const imageInput = document.getElementById('imageInput');
+        const previewImg = document.getElementById('previewImg');
+
+        imagePreview.addEventListener('click', () => imageInput.click());
+        imageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImg.src = e.target.result;
+                    previewImg.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Add product
+        document.getElementById('addProductBtn').addEventListener('click', () => {
+            const productId = document.getElementById('productId').value.trim();
+            const productName = document.getElementById('productName').value.trim();
+            const sku = document.getElementById('sku').value.trim();
+            const price = document.getElementById('price').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const image = previewImg.src;
+
+            if (!productId || !productName || !sku || !price || !description || !image) {
+                alert('Please fill in all fields and upload an image.');
+                return;
+            }
+
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            products.push({ id: productId, name: productName, sku, price, description, image });
+            localStorage.setItem('products', JSON.stringify(products));
+            alert('Product added successfully!');
+            document.getElementById('productId').value = '';
+            document.getElementById('productName').value = '';
+            document.getElementById('sku').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('description').value = '';
+            previewImg.src = '';
+            previewImg.classList.add('hidden');
+        });
+
+        // Redirect to view products
+        document.getElementById('viewProductsBtn').addEventListener('click', () => {
+            window.location.href = 'view-products.html';
+        });
+    </script>
+</body>
+</html>
